@@ -1,4 +1,4 @@
-class TransactionsController < ActionController::Base
+class TransactionsController < ApplicationController
   def index
     transactions = Transaction.all
     transactions = transactions.where('created_at > ?', params[:start_date]) if params[:start_date]
