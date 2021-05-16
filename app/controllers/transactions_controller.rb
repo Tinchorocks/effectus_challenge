@@ -11,7 +11,7 @@ class TransactionsController < ActionController::Base
     account_to   = Account.find(params[:account_to_id])
     
     if account_from.currency != account_to.currency
-      amount = convert_amount(amount, account_from.currency, account_to.currency)
+      amount = convert(amount, account_from.currency, account_to.currency)
     end
       
     transaction = Transaction.create!(amount: amount, account_from: account_from, account_to: account_to)
@@ -25,7 +25,17 @@ class TransactionsController < ActionController::Base
 
   private 
 
-  def convert_amount(amount, from, to)
+  def convert(amount, from, to)
     # converts amount from currency A to currency B
+     params = { 
+      access_key: '10467ebc20d0e59a0bb2028a6220784a',
+      from: from,
+      to: to,
+      amount: amount 
+    }
+
+    # POST http://data.fixer.io/api/convert -> params
+
+    # return amount
   end
 end
