@@ -1,0 +1,29 @@
+version: '3'
+services:
+  db:
+    image: postgres:11
+    volumes:
+      - psql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=effectus_challenge
+      - POSTGRES_PASSWORD=Zwy4W_gLA^
+      - POSTGRES_DB=effectus_challenge_development
+  challenge:
+    build: .
+    command: ./script/start_dev.sh
+    depends_on:
+      - db
+    volumes:
+      - .:/challenge
+      - bundle_path:/bundle
+    environment:
+      - BUNDLE_PATH=/bundle/vendor
+      - EDITOR=vim --wait
+    ports:
+      - "3000:3000"
+
+volumes:
+  bundle_path:
+    driver: local
+  psql:
+    driver: local

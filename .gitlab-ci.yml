@@ -1,0 +1,17 @@
+image: tmaier/docker-compose:latest
+
+services:
+  - docker:dind
+
+stages:
+  - test
+
+spec:
+  stage: test
+  script:
+    - docker-compose -f development.yml down
+    - docker-compose -f development.yml build
+    - docker-compose -f development.yml run --rm backend bundle install
+    - docker-compose -f development.yml run --rm backend rails credentials:edit
+    - docker-compose -f development.yml run --rm backend sh -c 'rails db:create db:schema:load && rails test'
+  coverage: '/\(\d+.\d+\%\) covered/'

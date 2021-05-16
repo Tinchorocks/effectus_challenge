@@ -1,0 +1,32 @@
+version: '3'
+services:
+  db:
+    image: postgres:11
+    volumes:
+      - psql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=effectus_challenge
+      - POSTGRES_PASSWORD=Zwy4W_gLA^
+      - POSTGRES_DB=effectus_challenge_production
+  challenge:
+    build: .
+    command: ./script/start_prod.sh
+    depends_on:
+      - db
+    volumes:
+      - .:/challenge
+      - bundle_path:/bundle
+    environment:
+      - BUNDLE_PATH=/bundle/vendor
+      - RAILS_ENV=production
+      - DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+    ports:
+      - "3004:3000"
+    depends_on:
+      - db
+
+volumes:
+  bundle_path:
+    driver: local
+  psql:
+    driver: local

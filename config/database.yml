@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  username: effectus_challenge
+  password: "Zwy4W_gLA^"
+  pool: 5
+
+development:
+  <<: *default
+  database: effectus_challenge_development
+
+production:
+  <<: *default
+  database: effectus_challenge_production
+
+test:
+  <<: *default
+  database: effectus_challenge_test
