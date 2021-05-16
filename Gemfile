@@ -12,12 +12,9 @@ gem 'puma', '~> 4.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 4.0'
+# gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -28,7 +25,7 @@ gem 'rack-cors'
 group :test do
   # Cleaning of DB
   gem 'database_cleaner-active_record', '~> 1.8.0'
-  gem 'database_cleaner-redis'
+  # gem 'database_cleaner-redis'
   gem 'minitest-around'
   # Factories
   gem 'factory_bot_rails'
@@ -55,14 +52,8 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# Sluged users
-gem 'friendly_id'
-
 # Psql
 gem 'pg'
-
-# Acts as paranoid
-gem 'acts_as_paranoid'
 
 # simple_command
 gem 'simple_command'
@@ -70,22 +61,8 @@ gem 'simple_command'
 # JsonWebToken
 gem 'jwt'
 
-# Carrierwave
-gem 'carrierwave', '~> 2.0'
+# Devise
+gem 'devise'
 
-# GraphQL
-gem 'graphql', '1.9.17'
-
-gem 'graphiql-rails', '1.7.0', group: :development
-
-# Roles
-gem "rolify"
-
-# Permissions
-gem 'cancancan'
-
-# Tracking changes
-gem 'paper_trail'
-
-# Pagination
-gem 'kaminari'
+# Devise Token Auth
+gem 'devise_token_auth'
