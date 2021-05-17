@@ -35,8 +35,6 @@ module Backend
     config.api_only = true
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: '_coookie_name', expire_after: 30.days
-
-
     config.middleware.use Rack::MethodOverride
 
     # CORS config to allow API usage between service

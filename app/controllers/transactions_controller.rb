@@ -1,11 +1,13 @@
 require 'net/http'
 
-class V1::TransactionsController < ApplicationController
+class TransactionsController < ApplicationController  
+  before_action :authenticate_user!
+
   def index
     transactions = Transaction.all
     transactions = transactions.where('created_at > ?', params[:start_date]) if params[:start_date]
     transactions = transactions.where('created_at < ?', params[:end_date]) if params[:end_date]
-    render json: transactions
+    render json: transactions 
   end
 
   def transfer   
