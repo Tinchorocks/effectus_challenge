@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2021_05_16_022147) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "currency"
-    t.decimal "amount", precision: 8, scale: 2
+    t.float "amount"
     t.bigint "user_id"
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
