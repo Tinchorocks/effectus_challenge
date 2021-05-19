@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Effectus Challenge - Test</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+     <div class="row effectus-challenge-container">
+        <div class="col-xs-12">
+          <h1 class="text-center">
+            <span class="glyphicon glyphicon-star-empty"></span> Effectus Challenge <span class="glyphicon glyphicon-star-empty"></span>
+          </h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div>
+                <b>Access-token: </b><span id="accessToken"></span>
+              </div>
+              <div>
+                <b>Client: </b><span id="client"></span>
+              </div>
+              <div>
+                <b>Uid: </b><span id="uid"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-body title">POST /login</div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <form id="credentials">
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
+                <button type="button" class="btn btn-success" onclick="login()">LOGIN</button>
+                <div id="login"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-body title">POST /logout</div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <form>
+                <button type="button" class="btn btn-success" onclick="logout()">LOGOUT</button>
+                <div id="logout"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-body title">GET /transactions</div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <form>
+                <button type="button" class="btn btn-success" onclick="getTransactions()">GET TRANSACTIONS</button>
+                <div id="transactions"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-body title">POST /transfer</div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <form>
+                <%# This form isnt finished yet :( %>
+                <div class="form-group">
+                  <label class="form-check-label">Origin account</label>
+                  <select class="form-control">
+                    <option>Account A</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-check-label">Destiny account</label>
+                  <select class="form-control">
+                    <option>Account B</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="amount">Amount</label>
+                  <input type="number" class="form-control" id="amount" placeholder="Enter amount">
+                </div>
+
+                <div class="form-group form-check">
+                  <label for="description">Description</label>
+                  <textarea class="form-control" id="description" placeholder="Enter description"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">SUBMIT TRANSFER</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <footer>
+    <style>
+      .effectus-challenge-container { padding: 20px; }
+      .title { background: #eee; }
+      #transactions, #login, #logout, #transfer { margin-top: 10px; word-break: break-word; }
+    </style>
+
+    <script>
+      function login() {
+        $.ajax({
+          url: "/sign_in?" + $('#credentials').serialize(),
+          method: 'POST',
+          success: function(response, status, xhr){
+            $('#accessToken').text(xhr.getResponseHeader("access-token"))
+            $('#client').text(xhr.getResponseHeader("client"))
+            $('#uid').text(xhr.getResponseHeader("uid"))
+            $('#login').html(JSON.stringify(response['data']));
+          },
+          error: function(error){
+            $('#login').html(error['responseText']);
+          },
+        });
+      }
+
+      function logout() {
+        $.ajax({
+          url: "/sign_out",          
+          method: 'DELETE',
+          headers: { 
+            "access-token":$('#accessToken').text(),
+            "client":$('#client').text(),
+            "uid":$('#uid').text(),
+          },
+          success: function(response){
+            $('#accessToken').text('')
+            $('#client').text('')
+            $('#uid').text('')
+            $('#login').text('')
+            $('#logout').html(JSON.stringify(response));
+          },
+          error: function(error){
+            $('#logout').html(error['responseText']);
+          },
+        });
+      }
+
+      function getTransactions() {
+        $.ajax({
+          url: "/transactions",          
+          headers: { 
+            "access-token":$('#accessToken').text(),
+            "client":$('#client').text(),
+            "uid":$('#uid').text(),
+          },
+          success: function(response){
+            $('#transactions').html(JSON.stringify(response));
+          },
+          error: function(error){
+            $('#transactions').html(error['responseText']);
+          },
+        });
+      }
+    </script>
+  </footer>
+</html>
